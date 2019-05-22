@@ -1,27 +1,50 @@
+import getUserId from '../utils/getUserId'
+
 const Subscription = {
     comment: {
         subscribe(parent, args, {
-            db,
-            pubsub
+            prisma
         }, info) {
-            const {
-                postId
-            } = args
-            const post = db.posts.find((post) => post.id === postId && post.published)
-
-            if (!post) {
-                throw new Error('Post not found.')
-            }
-
-            return pubsub.asyncIterator(`comment ${postId}`)
+            return prisma.subscription.comment({
+                where: {
+                    node: {
+                        post: {
+                            id: args.postId
+                        }
+                    }
+                }
+            }, info)
         }
     },
     post: {
         subscribe(parent, args, {
-            db,
-            pubsub
+            prisma
         }, info) {
-            return pubsub.asyncIterator('post')
+            return prisma.subscription.post({
+                where: {
+                    node: {
+                        published: true
+                    }
+                }
+            }, info)
+        }
+    },
+    myPost: {
+        subscribe(parent, args, {
+            prisma,
+            request
+        }, info) {
+            const userId = getUserId(request)
+
+            return prisma.subscription.post({
+                where: {
+                    node: {
+                        author: {
+                            id: userId
+                        }
+                    }
+                }
+            }, info)
         }
     }
 }
