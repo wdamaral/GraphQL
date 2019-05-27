@@ -13,10 +13,11 @@ services:
         databases:
           default:
             connector: postgres
-            host: YOUR_DB_HOST
-            database: YOUR_DB_NAME
-            user: YOUR_USER_NAME
-            password: YOUR_USER_DB_PASSWORD
+            host: $DB_HOST
+            port: $DB_PORT
+            database: $DB_NAME
+            user: $DB_USER
+            password: $DB_PASS
             ssl: true
             rawAccess: true
             port: '5432'

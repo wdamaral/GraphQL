@@ -7,8 +7,8 @@ import {
 
 const prisma = new Prisma({
     typeDefs: 'src/generated/prisma.graphql',
-    endpoint: 'http://localhost:4466',
-    secret: 'Its-Supposed-To-Be-A-Secret',
+    endpoint: process.env.PRISMA_ENDPOINT,
+    secret: process.env.PRISMA_SECRET,
     fragmentReplacements
 })
 
