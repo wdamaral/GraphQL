@@ -172,7 +172,7 @@ const Mutation = {
             published: true
         })
         if (isPublished && data.published === false) {
-            await prisma.mutation.deleteManyCommments({
+            await prisma.mutation.deleteManyComments({
                 where: {
                     post: {
                         id
